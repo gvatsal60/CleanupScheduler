@@ -1,4 +1,5 @@
 ﻿using Microsoft.Win32.TaskScheduler;
+using System.IO;
 
 class Program
 {
@@ -6,6 +7,9 @@ class Program
     {
         try
         {
+            // Folder path where you want to register the task
+            const string folderPath = "\\MyTask"; // Change this to your desired folder path
+
             // Create a new TaskService object
             using (TaskService ts = new TaskService())
             {
@@ -27,10 +31,22 @@ class Program
                 td.Actions.Add(new ExecAction("cmd.exe", "/c del /Q /S %userprofile%\\AppData\\Local\\Microsoft\\Windows\\Temporary Internet Files\\*.* 2>nul", null));
                 td.Actions.Add(new ExecAction("cmd.exe", "/c ipconfig /flushdns", null)); // Command to flush DNS cache
 
-                // Register the task in the root folder
-                ts.RootFolder.RegisterTaskDefinition("CleanupTask", td);
+                // Get the root folder
+                TaskFolder rootFolder = ts.RootFolder;
 
-                Console.WriteLine("Task scheduled successfully.");
+                // Attempt to retrieve the folder
+                TaskFolder myTaskFolder = rootFolder.TryGetFolder(folderPath);
+
+                // If the folder doesn't exist, create it
+                if (myTaskFolder == null)
+                {
+                    myTaskFolder = rootFolder.CreateFolder(folderPath);
+                }
+
+                // Register the task in the specified folder
+                myTaskFolder.RegisterTaskDefinition("CleanupTask", td);
+
+                Console.WriteLine("Task scheduled successfully in the MyTask folder.");
             }
         }
         catch (Exception ex)
@@ -40,5 +56,21 @@ class Program
 
         Console.WriteLine("Press any key to exit...");
         Console.ReadKey(); // Wait for any key press before exiting
+    }
+}
+
+// Extension method to try getting a folder
+public static class TaskFolderExtensions
+{
+    public static TaskFolder TryGetFolder(this TaskFolder folder, string path)
+    {
+        try
+        {
+            return folder.SubFolders[path];
+        }
+        catch
+        {
+            return null;
+        }
     }
 }
