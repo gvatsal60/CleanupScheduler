@@ -1,7 +1,7 @@
 ﻿using Microsoft.Win32.TaskScheduler;
-using System.IO;
+using TaskFolderExt;
 
-class Program
+class CleanupTask
 {
     static void Main(string[] args)
     {
@@ -35,7 +35,7 @@ class Program
                 TaskFolder rootFolder = ts.RootFolder;
 
                 // Attempt to retrieve the folder
-                TaskFolder myTaskFolder = rootFolder.TryGetFolder(folderPath);
+                TaskFolder? myTaskFolder = rootFolder.TryGetFolder(folderPath);
 
                 // If the folder doesn't exist, create it
                 if (myTaskFolder == null)
@@ -60,17 +60,20 @@ class Program
 }
 
 // Extension method to try getting a folder
-public static class TaskFolderExtensions
+namespace TaskFolderExt
 {
-    public static TaskFolder TryGetFolder(this TaskFolder folder, string path)
+    public static class TaskFolderExtensions
     {
-        try
+        public static TaskFolder? TryGetFolder(this TaskFolder folder, string path)
         {
-            return folder.SubFolders[path];
-        }
-        catch
-        {
-            return null;
+            try
+            {
+                return folder.SubFolders[path];
+            }
+            catch
+            {
+                return null;
+            }
         }
     }
 }
