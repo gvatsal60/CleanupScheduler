@@ -1,14 +1,12 @@
 ﻿using Microsoft.Win32.TaskScheduler;
 using TaskFolderExt;
 
-class CleanupTask
+class CleanupScheduler
 {
     static void Main(string[] args)
     {
         try
         {
-            // Folder path where you want to register the task
-            const string folderPath = "\\MyTask"; // Change this to your desired folder path
 
             // Create a new TaskService object
             using (TaskService ts = new TaskService())
@@ -33,6 +31,9 @@ class CleanupTask
 
                 // Get the root folder
                 TaskFolder rootFolder = ts.RootFolder;
+
+                // Folder path where you want to register the task
+                const string folderPath = "\\MyTask"; // Change this to your desired folder path
 
                 // Attempt to retrieve the folder
                 TaskFolder? myTaskFolder = rootFolder.TryGetFolder(folderPath);
