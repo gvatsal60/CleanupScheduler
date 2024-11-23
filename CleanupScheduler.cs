@@ -1,4 +1,4 @@
-﻿using Microsoft.Win32.TaskScheduler;
+using Microsoft.Win32.TaskScheduler;
 using TaskFolderExt;
 
 class CleanupScheduler
@@ -7,7 +7,6 @@ class CleanupScheduler
     {
         try
         {
-
             // Create a new TaskService object
             using (TaskService ts = new TaskService())
             {
