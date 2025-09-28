@@ -1,7 +1,7 @@
 using Microsoft.Win32.TaskScheduler;
 using TaskFolderExt;
 
-class CleanupScheduler
+static class CleanupScheduler
 {
     static void Main(string[] args)
     {
