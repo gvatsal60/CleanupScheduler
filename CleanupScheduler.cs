@@ -23,10 +23,11 @@ static class CleanupScheduler
                 td.Triggers.Add(new LogonTrigger());
 
                 // Create actions (e.g., execute multiple commands)
-                td.Actions.Add(new ExecAction("cmd.exe", "/c del /Q /S %temp%\\*.* 2>nul", null)); // Commands to cleanup temporary files
-                td.Actions.Add(new ExecAction("cmd.exe", "/c del /Q /S %userprofile%\\AppData\\Local\\Microsoft\\Windows\\INetCache\\*.* 2>nul", null));
-                td.Actions.Add(new ExecAction("cmd.exe", "/c del /Q /S %userprofile%\\AppData\\Local\\Microsoft\\Windows\\Temporary Internet Files\\*.* 2>nul", null));
-                td.Actions.Add(new ExecAction("cmd.exe", "/c ipconfig /flushdns", null)); // Command to flush DNS cache
+                const string CmdExe = "cmd.exe";
+                td.Actions.Add(new ExecAction(CmdExe, "/c del /Q /S %temp%\\*.* 2>nul", null)); // Commands to cleanup temporary files
+                td.Actions.Add(new ExecAction(CmdExe, "/c del /Q /S %userprofile%\\AppData\\Local\\Microsoft\\Windows\\INetCache\\*.* 2>nul", null));
+                td.Actions.Add(new ExecAction(CmdExe, "/c del /Q /S %userprofile%\\AppData\\Local\\Microsoft\\Windows\\Temporary Internet Files\\*.* 2>nul", null));
+                td.Actions.Add(new ExecAction(CmdExe, "/c ipconfig /flushdns", null)); // Command to flush DNS cache
 
                 // Get the root folder
                 TaskFolder rootFolder = ts.RootFolder;
