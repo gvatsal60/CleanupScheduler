@@ -49,7 +49,7 @@ repos:
       - id: mypy
   # Ruff for linting and formatting Python files
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: "v0.15.7"
+    rev: "v0.15.8"
     hooks:
       - id: ruff-check
         args: [--fix]
@@ -83,7 +83,7 @@ repos:
         types: [shell]
   # Actionlint for linting GitHub Actions YAML files
   - repo: https://github.com/rhysd/actionlint
-    rev: "v1.7.11"
+    rev: "v1.7.12"
     hooks:
       - id: actionlint
   # Yamlfmt for formatting YAML files
